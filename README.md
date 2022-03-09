@@ -37,11 +37,16 @@ Piiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiic---- Sub pixel
 In pixel shuffle method, we multiply the number of channels of the next layer(Actually the number of channels that we want in the next layer) by **block size** squared and consider the result as the number of filters of the next convolutional layer.
 For instance, the size of result matrix in encoder layer is 16*16*512, if we consider the block size as 2 and the number of channles of the next layer as 256, after doing mentioned computations, new matrix will be the size of 16*16*1024.
 
-We just do sub-pixeling, so pixel shuffling is not finished yet. For doing pixel shuffle, we should divide the number of channels of the result matrix by block size squared. But there is a point. For not losing the information of the image, we multiply Height and witdth of the image by block size. In this case, we keep all informatinos of an image. So as you can see in the Model Architecture image, the matrix in the first part of decoder is 32*32*256.
+We just do sub-pixeling, so pixel shuffling is not finished yet. For doing pixel shuffle, we should divide the number of channels of the result matrix by block size squared. But there is a point; for not losing the information of the image, we multiply height and witdth of the image by block size. In this case, we keep all informatinos of an image. So as you can see in the Model Architecture image, dimensions of the matrix in the first part of decoder is 32*32*256.
 Don't you have any questions? (Hint: the gray arrows!)
-for keeping more information of an image, we can concatenate the corresponding matrices of the encoder part and decoder part. This is called **skip connections**.
+
+
+Based on Unet paper, for keeping more information of an image, we can concatenate the corresponding matrices of the encoder part and decoder part. This will be done by **skip connections**.
+
+After doing mentioned concatenation, the output matrix pass through two convolutional layers and then a ReLU activation function. These steps will be done till the dimensions of the matrix be 512*512*16. This matrix will passed through a convolutional layer with 1 filter and a sigmoid activation function.
 
 
 
-
+## Code
+I trained this project on Kaggle, FFHQ dataset is available on Kaggle so you can use that.
 
