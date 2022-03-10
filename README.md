@@ -1,6 +1,11 @@
 # Image denoising
 As you can figure out from the topic, this project tries to remove noises from images.
 
+## Table of Contents
+- DataGenerator class : It's a suitable way to deal with huge datasets. Check [this](https://stanford.edu/~shervine/blog/keras-how-to-generate-data-on-the-fly) out
+-
+
+
 For the sake of generating a new image, I used a model which is made by 2 parts:
 
 1- Encoder part
@@ -48,5 +53,62 @@ After doing mentioned concatenation, the output matrix pass through two convolut
 
 
 ## Code
+### A function for creating convolutional layers
+
+the below function helps us to implement convolutional layer blocks which are in the encoder part and the decoder part(Blue arrows).
 I trained this project on Kaggle, FFHQ dataset is available on Kaggle so you can use that.
 
+```python 
+def conv_blocks_maker(inputs=None, n_filters=32, kernel_size=(3,3), padding='same'):
+    
+    '''First layer'''
+    
+    conv = tkl.Conv2D(filters = n_filters,
+                      kernel_size = kernel_size,
+                      padding = padding,
+                      kernel_initializer = 'he_normal')(inputs)
+    
+    conv = tkl.Activation('relu')(conv)
+    
+    
+    '''Second layer'''
+    
+    conv = tkl.Conv2D(filters = n_filters,
+                     kernel_size = kernel_size,
+                     padding = padding,
+                     kernel_initializer = 'he_normal')(conv)
+    
+    conv = tkl.Activation('relu')(conv)
+    
+    return conv
+```
+
+### A function for creating pool layers
+As you can figure out from function's name, it's for making pool layers(red arrows).
+
+```python
+def pool_maker(skip, pool_size=(2,2), dropout_prob=0.1):
+    conv = tkl.MaxPooling2D(pool_size)(skip)
+    conv = tkl.Dropout(dropout_prob)(conv)
+    
+    return conv
+```
+
+### Pixel shuffling
+Following functions give us a hand to handle pixle shuffling part in decoder part(dark green arrows).
+As I mentioned before, at the end of the pixel shuffling, we divide the number of filters by block size squared. And then multiply height and width by block size. This is tensorflow's duty. There is a function in tensorflow named depth_to_space that takes care of that.
+```python 
+def upsampler(conv, block_size, num_filters):  
+    
+    """Sub-pixel convolution"""
+    conv = Conv2D(num_filters * (block_size ** 2), (3,3), padding='same')(conv)
+    
+    """Pixel shuffle"""
+    conv =  pixel_shuffle(block_size)(conv)    
+    
+    return conv
+
+
+def pixel_shuffle(block_size):
+    return lambda conv: tf.nn.depth_to_space(conv, block_size)
+```
