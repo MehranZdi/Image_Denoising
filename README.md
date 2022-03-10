@@ -1,5 +1,5 @@
 # Image denoising
-As you can figure out from the topic, this project tries to remove noises from images.
+As you can figure out from the topic, this project tries to remove noises from images by deep learning methods.
 
 ## Table of Contents
 - DataGenerator class : It's a suitable way to deal with huge datasets. Check [this](https://stanford.edu/~shervine/blog/keras-how-to-generate-data-on-the-fly) out
@@ -96,7 +96,7 @@ def pool_maker(skip, pool_size=(2,2), dropout_prob=0.1):
 
 ### Pixel shuffling
 Following functions give us a hand to handle pixle shuffling part in decoder part(dark green arrows).
-As I mentioned before, at the end of the pixel shuffling, we divide the number of filters by block size squared. And then multiply height and width by block size. This is tensorflow's duty. There is a function in tensorflow named depth_to_space that takes care of that.
+As I mentioned before, at the end of the pixel shuffling, we divide the number of filters by block size squared. And then multiply height and width by block size. This is tensorflow's duty. There is a function in tensorflow named **depth_to_space** that takes care of that.
 ```python 
 def upsampler(conv, block_size, num_filters):  
     
@@ -112,3 +112,87 @@ def upsampler(conv, block_size, num_filters):
 def pixel_shuffle(block_size):
     return lambda conv: tf.nn.depth_to_space(conv, block_size)
 ```
+### A function for decoder part
+This function does whatever I explained above about decoder part. above functions is called by the following function.
+If you have paid attention, you figured out that in the last row in decoder part, there is just one convolutional layer. I took care of that with a flag named conv_blocks which is True or False. So conv_blocks variable in decoder function is for what I said.
+
+```python
+def decoder(conv, skip, block_size, n_filters, kernel_size, conv_blocks):
+    pixel_shuffle = upsampler(conv, block_size, n_filters)
+    concatenated = concatenate([skip, pixel_shuffle])
+        
+    if (conv_blocks == True):
+        conv = conv_blocks_maker(concatenated, n_filters, kernel_size)
+    else:
+        conv = Conv2D(n_filters, (3,3), padding='same',
+                      activation = 'relu')(concatenated)
+    
+    return conv
+```    
+
+### A function for creating the architecture
+In the following function, all above functions gather and create the whole architecture.
+This part is obvious, so you won't have a serious problem.
+
+```python
+def unet_model_creator(n_filters=32, dropout_prob=0.1):
+    
+    '''Encoder part:'''
+    
+    input_size = (WIDTH, HEIGHT, n_channels)
+    
+    input_img = tf.keras.Input(input_size, name = 'image' )
+    skip_1 = conv_blocks_maker(input_img, n_filters / 2, kernel_size = 3)
+    
+    conv = pool_maker(skip_1)
+    skip_2 = conv_blocks_maker(conv, n_filters, kernel_size = 3)
+    
+    conv = pool_maker(skip_2)
+    skip_3 = conv_blocks_maker(conv, n_filters * 2, kernel_size = 3)
+    
+    conv = pool_maker(skip_3)
+    skip_4 = conv_blocks_maker(conv, n_filters * 4, kernel_size = 3)
+    
+    conv = pool_maker(skip_4)
+    skip_5 = conv_blocks_maker(conv, n_filters * 8 , kernel_size = 3)
+    
+    conv = pool_maker(skip_5)
+    conv = conv_blocks_maker(conv, n_filters * 16 , kernel_size = 3)
+    
+
+    '''Decoder part'''        
+    
+    decoded_layer = decoder(conv, skip_5, block_size=2,
+                            n_filters=256, kernel_size=(3,3),
+                            conv_blocks=True)
+    
+    decoded_layer = decoder(decoded_layer, skip_4, block_size=2,
+                            n_filters=128, kernel_size=(3,3),
+                            conv_blocks=True)
+    
+    decoded_layer = decoder(decoded_layer, skip_3, block_size=2,
+                            n_filters=64, kernel_size=(3,3),
+                            conv_blocks=True)
+    
+    decoded_layer = decoder(decoded_layer, skip_2, block_size=2,
+                            n_filters=32, kernel_size=(3,3),
+                            conv_blocks=True)
+    
+    decoded_layer = decoder(decoded_layer, skip_1, block_size=2,
+                            n_filters=16, kernel_size=(3,3),
+                            conv_blocks=False)
+
+    output = Conv2D(3, (1,1), activation='sigmoid')(decoded_layer)
+
+    model = tf.keras.Model(inputs = [input_img], outputs = [output])
+    
+    return model
+```
+In last decoded_layer variable, I set conv_blocks to False. This is exactly what I said before. 
+
+### Training the model
+For training the model, I used Adam optimizer and MSE as loss functin. for choosing the best value for learning rate, I did Try and Error methode and finally used the learning rate with the value of 0.003. I trained my model in 20 epochs.
+
+I hope this projects can help you with anything you want.
+
+I'd appreciate if you contribute and make the project better and more robust.
