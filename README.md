@@ -28,7 +28,7 @@ After passing the input through two convolutional layers, it's pooling layer's t
 
 And this is where decoder part comes and helps us.
 
-## Decoder part
+## Decoder part 
 
 In this part, we should generate a matrix with the size of 512 * 512 * 3 from a matrix with the size of 16 * 16 * 512 which is made by encoder part.
 
