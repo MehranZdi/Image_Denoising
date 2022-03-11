@@ -195,4 +195,10 @@ For training the model, I used Adam optimizer and MSE as loss functin. for choos
 
 I hope this projects can help you with anything you want.
 
+## Contributing
+
 I'd appreciate if you contribute and make the project better and more robust.
+
+## Streamlit
+
+There are many ways to deploy a ML or DL model. Streamlit is one of the fastest and easiest. There is no need to get involoved with frontend and backend, streamlit take cares of everything. Check Streamlit
