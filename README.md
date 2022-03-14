@@ -5,8 +5,9 @@ As you can figure out from the topic, this project tries to remove noises from i
 
 ## Table of Contents
 - [Explanation](#Explanation)
-    - [Encoder part](#Encoder_part)
+    - [Encoder part](#Encoder)
 - Code
+    - [Con
 - Streamlit
 - Result
 - References
@@ -27,7 +28,7 @@ The used model is a mixture of Unet and Runet and it's kind of be customized. Th
 
 Let's cut to the chase.
 
-### Encoder part
+### Encoder
 
 In encoder part, the goal is mining information of an image. This task will be done by Convolutional layers and Pooling layers. I should mention that for feeding the model I used colored images in FFHQ dataset and I changed the images' sizes to 512 * 512 * 3.
 Take a look at the bottom right part of the image, there is a guide for marks I used for explaining what every single mark in the architecture is for.
