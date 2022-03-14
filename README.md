@@ -201,4 +201,4 @@ I'd appreciate if you contribute and make the project better and more robust.
 
 ## Streamlit
 
-There are many ways to deploy a ML or DL model. Streamlit is one of the fastest and easiest. There is no need to get involoved with frontend and backend, streamlit take cares of everything. Check Streamlit
+There are many ways to deploy a ML or DL model. Streamlit is one of the fastest and easiest. There is no need to get involoved with frontend and backend,because streamlit take cares of everything. Check [Streamlit](https://streamlit.io/)
