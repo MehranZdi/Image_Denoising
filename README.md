@@ -44,6 +44,7 @@ What we're going to do is called **upsampling**. There are many methods for upsa
 ### Pixel shuffle:
 
 First of all, we have to be familiar with sub-pixel concept. As all of us know, a digital image is made of many pixels which are related to each other. in microscopic world, there are many tiny pixels between every two pixel. These tiny pixels are called sub-pixel. take a look at the below image to get a better intuition.
+
 ![Sub-pixel image](https://github.com/MehranZdi/Image_Inpainting/blob/main/sub_pixel.png "Sub pixel")
 
 In pixel shuffle method, we multiply the number of channels of the next layer(Actually the number of channels that we want in the next layer) by **block size** squared and consider the result as the number of filters of the next convolutional layer.
