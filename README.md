@@ -5,14 +5,12 @@ As you can figure out from the topic, this project tries to remove noises from i
 
 ## Table of Contents
 - [Explanation](#Explanation)
-    - [Encoder part](#Encoder&#x20;part)
-- Code
+- [Code](#Code)
     - [Con
-- Streamlit
-- [Pixel shuffle](#Pixel%20shuffling)
-- Result
-- References
-- Contributing
+- [Streamlit](#Streamlit)
+- [Result](#Result)
+- [References](#References)
+- [Contributing](#Contributing)
 
 ## Explanation
 
@@ -25,7 +23,7 @@ For the sake of generating a new image, I used a model which is made by 2 parts:
 The used model is a mixture of Unet and Runet and it's kind of be customized. The whole architecture is shown below:
 
 
-![Denoising model architecture](https://github.com/MehranZdi/Image_Inpainting/blob/main/model_architecture.jpg "model architecture").
+![Denoising model architecture](https://github.com/MehranZdi/Image_Inpainting/blob/main/model_architecture.jpg "model architecture")
 
 Let's cut to the chase.
 
@@ -47,7 +45,7 @@ What we're going to do is called **upsampling**. There are many methods for upsa
 ### Pixel shuffle:
 
 First of all, we have to be familiar with sub-pixel concept. As all of us know, a digital image is made of many pixels which are related to each other. in microscopic world, there are many tiny pixels between every two pixel. These tiny pixels are called sub-pixel. take a look at the below image to get a better intuition.
-Piiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiic---- Sub pixel
+![Sub-pixel image](https://github.com/MehranZdi/Image_Inpainting/blob/main/sub_pixel.png "Sub pixel")
 
 In pixel shuffle method, we multiply the number of channels of the next layer(Actually the number of channels that we want in the next layer) by **block size** squared and consider the result as the number of filters of the next convolutional layer.
 For instance, the size of result matrix in encoder layer is 16*16*512, if we consider the block size as 2 and the number of channles of the next layer as 256, after doing mentioned computations, new matrix will be the size of 16*16*1024.
@@ -214,14 +212,18 @@ There are many ways to deploy a ML or DL model. Streamlit is one of the fastest 
 I wrote a program to make a webpage in order to work with the model. Source codes are available in _main.py_ file and _helper.py_ file.
 
 ## Result
-Take a look at a sample result below:
+Take a look at result below:
 
-![result](https://github.com/MehranZdi/Image_Inpainting/blob/main/result.png "Denoised image").
+![result](https://github.com/MehranZdi/Image_Inpainting/blob/main/result.png "Denoised image")
 
 ## References
 1- [U-Net: Convolutional Networks for Biomedical Image Segmentation](https://arxiv.org/pdf/1505.04597.pdf)
 
 2- [RUNet: A Robust UNet Architecture for Image Super-Resolution](https://openaccess.thecvf.com/content_CVPRW_2019/papers/WiCV/Hu_RUNet_A_Robust_UNet_Architecture_for_Image_Super-Resolution_CVPRW_2019_paper.pdf)
+
+3- [Real-Time Single Image and Video Super-Resolution Using an Efficient Sub-Pixel Convolutional Neural Network](https://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/Shi_Real-Time_Single_Image_CVPR_2016_paper.pdf)
+
+4- [An Overview of ESPCN: An Efficient Sub-pixel Convolutional Neural Network](https://medium.com/@zhuocen93/an-overview-of-espcn-an-efficient-sub-pixel-convolutional-neural-network-b76d0a6c875e)
 
 
 ## Contributing
