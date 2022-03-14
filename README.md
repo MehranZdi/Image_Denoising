@@ -5,7 +5,7 @@ As you can figure out from the topic, this project tries to remove noises from i
 
 ## Table of Contents
 - [Explanation](#Explanation)
-    - [Encoder part](#Encoder&#x20;part)
+    - [Encoder part](##Encoder&#x20;part)
 - Code
     - [Con
 - Streamlit
