@@ -208,3 +208,4 @@ I wrote a program to make a webpage in order to work with the model. Source code
 ## Result
 Take a look at a sample result below:
 
+![result](https://github.com/MehranZdi/Image_Inpainting/blob/main/result.png "Denoised image").
