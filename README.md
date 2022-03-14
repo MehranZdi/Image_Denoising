@@ -195,10 +195,6 @@ For training the model, I used Adam optimizer and MSE as loss functin. for choos
 
 I hope this projects can help you with anything you want.
 
-## Contributing
-
-I'd appreciate if you contribute and make the project better and more robust.
-
 ## Streamlit
 
 There are many ways to deploy a ML or DL model. Streamlit is one of the fastest and easiest. There is no need to get involoved with frontend and backend,because streamlit take cares of everything. Check [Streamlit](https://streamlit.io/).
@@ -209,3 +205,14 @@ I wrote a program to make a webpage in order to work with the model. Source code
 Take a look at a sample result below:
 
 ![result](https://github.com/MehranZdi/Image_Inpainting/blob/main/result.png "Denoised image").
+
+## References
+1- [U-Net: Convolutional Networks for Biomedical Image Segmentation](https://arxiv.org/pdf/1505.04597.pdf)
+
+2- [RUNet: A Robust UNet Architecture for Image Super-Resolution](https://openaccess.thecvf.com/content_CVPRW_2019/papers/WiCV/Hu_RUNet_A_Robust_UNet_Architecture_for_Image_Super-Resolution_CVPRW_2019_paper.pdf)
+
+
+## Contributing
+
+I'd appreciate if you contribute and make the project better and more robust.
+
