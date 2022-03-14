@@ -9,7 +9,7 @@ As you can figure out from the topic, this project tries to remove noises from i
 - Code
     - [Con
 - Streamlit
-- [Pixel shuffle](#Pixel&#32;shuffling)
+- [Pixel shuffle](Pixel&#32;shuffling)
 - Result
 - References
 - Contributing
