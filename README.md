@@ -6,7 +6,6 @@ As you can figure out from the topic, this project tries to remove noises from i
 ## Table of Contents
 - [Explanation](#Explanation)
 - [Code](#Code)
-    - [Con
 - [Streamlit](#Streamlit)
 - [Result](#Result)
 - [References](#References)
