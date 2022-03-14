@@ -1,10 +1,17 @@
 # Image denoising
+
+## Introduction
 As you can figure out from the topic, this project tries to remove noises from images by deep learning methods.
 
 ## Table of Contents
-- DataGenerator class : It's a suitable way to deal with huge datasets. Check [this](https://stanford.edu/~shervine/blog/keras-how-to-generate-data-on-the-fly) out
--
+- Explanation
+- Code
+- Streamlit
+- Result
+- References
+- Contributing
 
+## Explanation
 
 For the sake of generating a new image, I used a model which is made by 2 parts:
 
@@ -191,6 +198,8 @@ def unet_model_creator(n_filters=32, dropout_prob=0.1):
 In last decoded_layer variable, I set conv_blocks to False. This is exactly what I said before. 
 
 ### Training the model
+First of all, for handling the dataset, I used DataGenerator class which is a suitable way to deal with huge datasets. Check [this](https://stanford.edu/~shervine/blog/keras-how-to-generate-data-on-the-fly) out.
+
 For training the model, I used Adam optimizer and MSE as loss functin. for choosing the best value for learning rate, I did Try and Error methode and finally used the learning rate with the value of 0.003. I trained my model in 20 epochs.
 
 I hope this projects can help you with anything you want.
