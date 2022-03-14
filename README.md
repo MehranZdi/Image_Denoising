@@ -4,7 +4,7 @@
 As you can figure out from the topic, this project tries to remove noises from images by deep learning methods.
 
 ## Table of Contents
-- Explanation
+- [Explanation](#Explanation)
 - Code
 - Streamlit
 - Result
