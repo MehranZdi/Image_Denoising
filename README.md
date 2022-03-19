@@ -9,7 +9,7 @@ As you can figure out from the topic, this project tries to remove noises from i
 - [Streamlit](#Streamlit)
 - [Result](#Result)
 - [References](#References)
-- [Contributing](#Contributing)
+- [Contribution](#Contribution)
 
 ## Explanation
 
@@ -226,7 +226,7 @@ Take a look at result below:
 4- [An Overview of ESPCN: An Efficient Sub-pixel Convolutional Neural Network](https://medium.com/@zhuocen93/an-overview-of-espcn-an-efficient-sub-pixel-convolutional-neural-network-b76d0a6c875e)
 
 
-## Contributing
+## Contribution
 
 I'd appreciate if you contribute and make the project better and more robust.
 
