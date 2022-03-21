@@ -43,7 +43,7 @@ What we're going to do is called **upsampling**. There are many methods for upsa
 
 ### Pixel shuffle:
 
-First of all, we have to be familiar with sub-pixel concept. As all of us know, a digital image is made of many pixels which are related to each other. In microscopic world, there are many tiny pixels between every two pixel. These tiny pixels are called sub-pixel. take a look at the below image to get better intuition.
+First of all, we have to be familiar with sub-pixel concept. As we all know, a digital image is made of many pixels which are related to each other. In microscopic world, there are many tiny pixels between every two pixel. These tiny pixels are called sub-pixel. take a look at the below image to get better intuition.
 
 ![Sub-pixel image](https://github.com/MehranZdi/Image_Inpainting/blob/main/sub_pixel.png "Sub pixel")
 
