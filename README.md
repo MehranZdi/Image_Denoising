@@ -1,7 +1,7 @@
 # Image denoising
 
 ## Introduction
-As you can figure out from the topic, this project tries to remove noises from images by deep learning methods.
+As the topic reveals, this project tries to remove noises from images by deep learning methods.
 
 ## Table of Contents
 - [Explanation](#Explanation)
@@ -19,17 +19,17 @@ For the sake of generating a new image, I used a model which is made by 2 parts:
 
 2- Decoder part
 
-The used model is a mixture of Unet and Runet and it's kind of be customized. The whole architecture is shown below:
+The model which has been used is a mixture of Unet and Runet and it's kind of be customized. The whole architecture is shown below:
 
 
 ![Denoising model architecture](https://github.com/MehranZdi/Image_Inpainting/blob/main/model_architecture.jpg "model architecture")
 
-Let's cut to the chase.
+Let's get to the point.
 
 ### Encoder part
 
 In encoder part, the goal is mining information of the image. This task will be done by Convolutional layers and Pooling layers. I should mention that for feeding the model I used colored images in FFHQ dataset and I changed the images' sizes to 512*512*3.
-Take a look at the bottom right part of the image, there is a guide for marks I used for explaining what every single mark in the architecture is for.
+At the bottom right part of the image, there is a guide for marks I used for explaining what every single mark in the architecture is for.
 
 After passing the input through two convolutional layers, it's pooling layer's turn. Pooling layer can store more and vital information of an image. It reduces the height and width of the image and increases the number of channels. These steps will be done till the size of the matrix will be 16*16*512.
 
