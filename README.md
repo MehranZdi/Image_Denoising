@@ -48,7 +48,7 @@ First of all, we have to be familiar with sub-pixel concept. As we all know, a d
 ![Sub-pixel image](https://github.com/MehranZdi/Image_Inpainting/blob/main/sub_pixel.png "Sub pixel")
 
 In the pixel shuffle method, we multiply the number of channels of the next layer(the number of channels that we want in the next layer) by **block size** squared and consider the result as the number of filters of the next convolutional layer.
-For instance, the size of result matrix in encoder layer is 16*16*512, if we consider 2 as the block size and 256 as the number of channles of the next layer, after the mentioned computations, new matrix will be the size of 16 * 16 * 1024.
+For instance, the size of result matrix in encoder layer is 16 * 16 * 512, if we consider 2 as the block size and 256 as the number of channles of the next layer, after the mentioned computations, new matrix will be the size of 16 * 16 * 1024.
 
 So far, we have just done sub-pixeling, and pixel shuffling is not finished yet. For doing pixel shuffle, we should divide the number of channels of the result matrix by block size squared. But there is a point; for not losing the information of the image, we multiply height and witdth of the image by block size. In this case, we keep all informatino of an image. As you can see in the Model Architecture image, dimensions of the matrix in the first part of decoder is 32 * 32 * 256.
 Do you have any questions? (Hint: the gray arrows!)
