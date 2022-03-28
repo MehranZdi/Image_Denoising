@@ -28,16 +28,16 @@ Let's get to the point.
 
 ### Encoder part
 
-In encoder part, the goal is mining information of the image. This task will be done by **Convolutional layers** and **Pooling layers**. I should mention that for feeding the model I used colored images in FFHQ dataset and I changed the images' sizes to 512*512*3.
+In encoder part, the goal is mining information of the image. This task will be done by **Convolutional layers** and **Pooling layers**. I should mention that for feeding the model I used colored images in FFHQ dataset and I changed the images' sizes to 512 * 512 * 3.
 At the bottom right part of the image, there is a guide for marks which I used for explaining what every single mark in the architecture is for.
 
-After passing the input through two convolutional layers, it's the pooling layer's turn. The pooling layer can store more vital information of an image. It reduces the height and width of the image and increases the number of channels. These steps will be done till the size of the matrix get to 16*16*512.
+After passing the input through two convolutional layers, it's the pooling layer's turn. The pooling layer can store more vital information of an image. It reduces the height and width of the image and increases the number of channels. These steps will be done till the size of the matrix get to 16 * 16 * 512.
 
 And this is where decoder part comes and helps us.
 
 ### Decoder part 
 
-In this part, we should generate a matrix with the size of 512*512*3 from a matrix with the size of 16*16*512 which is made by the encoder part.
+In this part, we should generate a matrix with the size of 512 * 512 * 3 from a matrix with the size of 16 * 16 * 512 which is made by the encoder part.
 
 What we're going to do is called **upsampling**. There are many methods for upsampling, but in this project, I used **Pixel shuffle** method.
 
@@ -48,15 +48,15 @@ First of all, we have to be familiar with sub-pixel concept. As we all know, a d
 ![Sub-pixel image](https://github.com/MehranZdi/Image_Inpainting/blob/main/sub_pixel.png "Sub pixel")
 
 In the pixel shuffle method, we multiply the number of channels of the next layer(the number of channels that we want in the next layer) by **block size** squared and consider the result as the number of filters of the next convolutional layer.
-For instance, the size of result matrix in encoder layer is 16*16*512, if we consider 2 as the block size and 256 as the number of channles of the next layer, after the mentioned computations, new matrix will be the size of 16*16*1024.
+For instance, the size of result matrix in encoder layer is 16*16*512, if we consider 2 as the block size and 256 as the number of channles of the next layer, after the mentioned computations, new matrix will be the size of 16 * 16 * 1024.
 
-So far, we have just done sub-pixeling, and pixel shuffling is not finished yet. For doing pixel shuffle, we should divide the number of channels of the result matrix by block size squared. But there is a point; for not losing the information of the image, we multiply height and witdth of the image by block size. In this case, we keep all informatino of an image. As you can see in the Model Architecture image, dimensions of the matrix in the first part of decoder is 32*32*256.
+So far, we have just done sub-pixeling, and pixel shuffling is not finished yet. For doing pixel shuffle, we should divide the number of channels of the result matrix by block size squared. But there is a point; for not losing the information of the image, we multiply height and witdth of the image by block size. In this case, we keep all informatino of an image. As you can see in the Model Architecture image, dimensions of the matrix in the first part of decoder is 32 * 32 * 256.
 Do you have any questions? (Hint: the gray arrows!)
 
 
 Based on Unet paper, for keeping more information of an image, we can concatenate the corresponding matrices of the encoder part and the decoder part. This will be done by **skip connections**.
 
-After doing mentioned concatenation, the output matrix pass through two convolutional layers and then a ReLU activation function. These steps will be done till the dimensions of the matrix get to 512*512*16. This matrix will pass through a convolutional layer with 1 filter and a sigmoid activation function.
+After doing mentioned concatenation, the output matrix pass through two convolutional layers and then a ReLU activation function. These steps will be done till the dimensions of the matrix get to 512 * 512 * 16. This matrix will pass through a convolutional layer with 1 filter and a sigmoid activation function.
 
 
 
