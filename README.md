@@ -1,7 +1,7 @@
 # Image denoising
 
 ## Introduction
-As the topic reveals, this project tries to remove noises from images by deep learning methods.
+As the topic reveals, this project tries to reduce noises from images by deep learning methods.
 
 ## Table of Contents
 - [Explanation](#Explanation)
@@ -28,7 +28,7 @@ Let's get to the point.
 
 ### Encoder part
 
-In encoder part, the goal is mining information of the image. This task will be done by Convolutional layers and Pooling layers. I should mention that for feeding the model I used colored images in FFHQ dataset and I changed the images' sizes to 512*512*3.
+In encoder part, the goal is mining information of the image. This task will be done by **Convolutional layers** and **Pooling layers**. I should mention that for feeding the model I used colored images in FFHQ dataset and I changed the images' sizes to 512*512*3.
 At the bottom right part of the image, there is a guide for marks which I used for explaining what every single mark in the architecture is for.
 
 After passing the input through two convolutional layers, it's the pooling layer's turn. The pooling layer can store more vital information of an image. It reduces the height and width of the image and increases the number of channels. These steps will be done till the size of the matrix get to 16*16*512.
@@ -43,27 +43,27 @@ What we're going to do is called **upsampling**. There are many methods for upsa
 
 ### Pixel shuffle:
 
-First of all, we have to be familiar with sub-pixel concept. As we all know, a digital image is made of many pixels  related to each other. In microscopic world, there are many tiny pixels between every two pixel. These tiny pixels are called sub-pixels. Take a look at the below image to get a better intuition.
+First of all, we have to be familiar with sub-pixel concept. As we all know, a digital image is made of many pixels related to each other. In microscopic world, there are many tiny pixels between every two pixel. These tiny pixels are called sub-pixels. Take a look at the below image to get a better intuition.
 
 ![Sub-pixel image](https://github.com/MehranZdi/Image_Inpainting/blob/main/sub_pixel.png "Sub pixel")
 
 In the pixel shuffle method, we multiply the number of channels of the next layer(the number of channels that we want in the next layer) by **block size** squared and consider the result as the number of filters of the next convolutional layer.
 For instance, the size of result matrix in encoder layer is 16*16*512, if we consider 2 as the block size and 256 as the number of channles of the next layer, after the mentioned computations, new matrix will be the size of 16*16*1024.
 
-So far, we have just done sub-pixeling, and pixel shuffling is not finished yet. For doing pixel shuffle, we should divide the number of channels of the result matrix by block size squared. But there is a point; for not losing the information of the image, we multiply height and witdth of the image by block size. In this case, we keep all informatino of an image. So as you can see in the Model Architecture image, dimensions of the matrix in the first part of decoder is 32*32*256.
-Don't you have any questions? (Hint: the gray arrows!)
+So far, we have just done sub-pixeling, and pixel shuffling is not finished yet. For doing pixel shuffle, we should divide the number of channels of the result matrix by block size squared. But there is a point; for not losing the information of the image, we multiply height and witdth of the image by block size. In this case, we keep all informatino of an image. As you can see in the Model Architecture image, dimensions of the matrix in the first part of decoder is 32*32*256.
+Do you have any questions? (Hint: the gray arrows!)
 
 
-Based on Unet paper, for keeping more information of an image, we can concatenate the corresponding matrices of the encoder part and decoder part. This will be done by **skip connections**.
+Based on Unet paper, for keeping more information of an image, we can concatenate the corresponding matrices of the encoder part and the decoder part. This will be done by **skip connections**.
 
-After doing mentioned concatenation, the output matrix pass through two convolutional layers and then a ReLU activation function. These steps will be done till the dimensions of the matrix will be 512*512*16. This matrix will passed through a convolutional layer with 1 filter and a sigmoid activation function.
+After doing mentioned concatenation, the output matrix pass through two convolutional layers and then a ReLU activation function. These steps will be done till the dimensions of the matrix get to 512*512*16. This matrix will pass through a convolutional layer with 1 filter and a sigmoid activation function.
 
 
 
 ## Code
 ### A function for creating convolutional layers
 
-the below function helps us to implement convolutional layer blocks which are in the encoder part and the decoder part(Blue arrows).
+The below function helps us to implement convolutional layer blocks which are in the encoder part and the decoder part(Blue arrows).
 I trained this project on Kaggle, FFHQ dataset is available on Kaggle so you can use that.
 
 ```python 
@@ -92,7 +92,7 @@ def conv_blocks_maker(inputs=None, n_filters=32, kernel_size=(3,3), padding='sam
 ```
 
 ### A function for creating pool layers
-As you can find out from function's name, it's for making pool layers(red arrows).
+As you can find out from the following function's name, it's for making pool layers(red arrows).
 
 ```python
 def pool_maker(skip, pool_size=(2,2), dropout_prob=0.1):
@@ -103,7 +103,7 @@ def pool_maker(skip, pool_size=(2,2), dropout_prob=0.1):
 ```
 
 ### Pixel shuffling
-Following functions give us a hand to handle pixle shuffling part in decoder part(dark green arrows).
+Following functions give us a hand to handle the pixle shuffling part in the decoder part(dark green arrows).
 As I mentioned before, at the end of the pixel shuffling, we divide the number of filters by block size squared. And then multiply height and width by block size. This is tensorflow's duty. There is a function in tensorflow named **depth_to_space** that takes care of that.
 ```python 
 def upsampler(conv, block_size, num_filters):  
@@ -196,23 +196,22 @@ def unet_model_creator(n_filters=32, dropout_prob=0.1):
     
     return model
 ```
-In last decoded_layer variable, I set conv_blocks to False. This is exactly what I said before. 
+In the last decoded_layer variable, I set conv_blocks to False. This is exactly what I said before. 
 
 ### Training the model
 First of all, for handling the dataset, I used DataGenerator class which is a suitable way to deal with huge datasets. Check [this](https://stanford.edu/~shervine/blog/keras-how-to-generate-data-on-the-fly) out.
 
-For training the model, I used Adam optimizer and MSE as loss functin. for choosing the best value for learning rate, I did Try and Error method and finally used the learning rate with the value of 0.003. I trained my model in 20 epochs.
+For training the model, I used Adam optimizer and MSE as loss functin. For choosing the best value for learning rate, I did "Try and Error" method and finally used the learning rate with the value of 0.003. Besides, I trained my model in 20 epochs.
 
-I hope this projects can help you with anything you want.
 
 ## Streamlit
 
-There are many ways to deploy a ML or DL model. Streamlit is one of the fastest and easiest. There is no need to get involoved with frontend and backend, because streamlit takes care of everything. Check [Streamlit](https://streamlit.io/).
+There are many ways to deploy an ML or a DL model. Streamlit is one of the fastest and easiest. There is no need to get involoved with frontend and backend, because streamlit takes care of everything. Check [Streamlit](https://streamlit.io/).
 
-I wrote a program to make a webpage in order to work with the model. Source codes are available in _main.py_ file and _helper.py_ file.
+I wrote a program to make a webpage in order to work communicate the model. Source codes are available in _main.py_ file and _helper.py_ file.
 
 ## Result
-Take a look at result below:
+Take a look at the result below:
 
 ![result](https://github.com/MehranZdi/Image_Inpainting/blob/main/result.png "Denoised image")
 
@@ -225,6 +224,7 @@ Take a look at result below:
 
 4- [An Overview of ESPCN: An Efficient Sub-pixel Convolutional Neural Network](https://medium.com/@zhuocen93/an-overview-of-espcn-an-efficient-sub-pixel-convolutional-neural-network-b76d0a6c875e)
 
+I hope this projects can help you with anything you want.
 
 ## Contribution
 
