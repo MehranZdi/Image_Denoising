@@ -29,28 +29,28 @@ Let's get to the point.
 ### Encoder part
 
 In encoder part, the goal is mining information of the image. This task will be done by Convolutional layers and Pooling layers. I should mention that for feeding the model I used colored images in FFHQ dataset and I changed the images' sizes to 512*512*3.
-At the bottom right part of the image, there is a guide for marks I used for explaining what every single mark in the architecture is for.
+At the bottom right part of the image, there is a guide for marks which I used for explaining what every single mark in the architecture is for.
 
-After passing the input through two convolutional layers, it's pooling layer's turn. Pooling layer can store more and vital information of an image. It reduces the height and width of the image and increases the number of channels. These steps will be done till the size of the matrix will be 16*16*512.
+After passing the input through two convolutional layers, it's the pooling layer's turn. The pooling layer can store more vital information of an image. It reduces the height and width of the image and increases the number of channels. These steps will be done till the size of the matrix get to 16*16*512.
 
 And this is where decoder part comes and helps us.
 
 ### Decoder part 
 
-In this part, we should generate a matrix with the size of 512*512*3 from a matrix with the size of 16*16*512 which is made by encoder part.
+In this part, we should generate a matrix with the size of 512*512*3 from a matrix with the size of 16*16*512 which is made by the encoder part.
 
 What we're going to do is called **upsampling**. There are many methods for upsampling, but in this project, I used **Pixel shuffle** method.
 
 ### Pixel shuffle:
 
-First of all, we have to be familiar with sub-pixel concept. As we all know, a digital image is made of many pixels which are related to each other. In microscopic world, there are many tiny pixels between every two pixel. These tiny pixels are called sub-pixel. take a look at the below image to get better intuition.
+First of all, we have to be familiar with sub-pixel concept. As we all know, a digital image is made of many pixels  related to each other. In microscopic world, there are many tiny pixels between every two pixel. These tiny pixels are called sub-pixels. Take a look at the below image to get a better intuition.
 
 ![Sub-pixel image](https://github.com/MehranZdi/Image_Inpainting/blob/main/sub_pixel.png "Sub pixel")
 
-In pixel shuffle method, we multiply the number of channels of the next layer(the number of channels that we want in the next layer) by **block size** squared and consider the result as the number of filters of the next convolutional layer.
-For instance, the size of result matrix in encoder layer is 16*16*512, if we consider the block size as 2 and the number of channles of the next layer as 256, after doing mentioned computations, new matrix will be the size of 16\prod16\prod1024.
+In the pixel shuffle method, we multiply the number of channels of the next layer(the number of channels that we want in the next layer) by **block size** squared and consider the result as the number of filters of the next convolutional layer.
+For instance, the size of result matrix in encoder layer is 16*16*512, if we consider 2 as the block size and 256 as the number of channles of the next layer, after the mentioned computations, new matrix will be the size of 16*16*1024.
 
-We just did sub-pixeling, so pixel shuffling is not finished yet. For doing pixel shuffle, we should divide the number of channels of the result matrix by block size squared. But there is a point; for not losing the information of the image, we multiply height and witdth of the image by block size. In this case, we keep all informatino of an image. So as you can see in the Model Architecture image, dimensions of the matrix in the first part of decoder is 32*32*256.
+So far, we have just done sub-pixeling, and pixel shuffling is not finished yet. For doing pixel shuffle, we should divide the number of channels of the result matrix by block size squared. But there is a point; for not losing the information of the image, we multiply height and witdth of the image by block size. In this case, we keep all informatino of an image. So as you can see in the Model Architecture image, dimensions of the matrix in the first part of decoder is 32*32*256.
 Don't you have any questions? (Hint: the gray arrows!)
 
 
@@ -121,8 +121,8 @@ def pixel_shuffle(block_size):
     return lambda conv: tf.nn.depth_to_space(conv, block_size)
 ```
 ### A function for decoder part
-This function does whatever I explained above about decoder part. above functions is called by the following function.
-If you have paid attention, you figured out in the last row in decoder part, there is just one convolutional layer. I took care of that with a **flag** named conv_blocks which can be True or False. So _conv_blocks_ variable in decoder function is for what I said.
+This function does whatever I explained above about the decoder part. Above functions are called by the following function.
+If you have paid attention, you can see that there is just one convolutional layer in the last row in the decoder part. I took care of that with a **flag** named conv_blocks which can be True or False. So _conv_blocks_ variable in decoder function is for what I said.
 
 ```python
 def decoder(conv, skip, block_size, n_filters, kernel_size, conv_blocks):
