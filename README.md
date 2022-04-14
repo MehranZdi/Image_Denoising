@@ -224,7 +224,7 @@ Take a look at the result below:
 
 4- [An Overview of ESPCN: An Efficient Sub-pixel Convolutional Neural Network](https://medium.com/@zhuocen93/an-overview-of-espcn-an-efficient-sub-pixel-convolutional-neural-network-b76d0a6c875e)
 
-I hope this projects can help you with anything you want.
+I hope this project help you with anything you want.
 
 ## Contribution
 
