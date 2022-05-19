@@ -1,4 +1,4 @@
-# Image denoising
+# Image Denoising
 
 ## Introduction
 As the topic reveals, this project tries to reduce noises from images by deep learning methods.
